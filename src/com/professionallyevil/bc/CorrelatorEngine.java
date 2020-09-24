@@ -244,6 +244,7 @@ public class CorrelatorEngine extends SwingWorker<String, Object> {
         String domain = null;
         String path = null;
         String name = "";
+        String sameSite = null;
         int count = 0;
         for (String part: parts) {
             String[] pair = part.split("=");
@@ -267,6 +268,9 @@ public class CorrelatorEngine extends SwingWorker<String, Object> {
                 case "PATH":
                     path = pair[1].trim();
                     break;
+                case "SAMESITE":
+                    sameSite = pair[1].trim();
+                    break;
                 default:
                     // pass
             }
@@ -283,7 +287,7 @@ public class CorrelatorEngine extends SwingWorker<String, Object> {
                 cs = new CookieStatistics(name);
                 cookieStatistics.put(name, cs);
             }
-            cs.addCookieValues(httpOnly, secure, expires, maxAge, domain, path);
+            cs.addCookieValues(httpOnly, secure, expires, maxAge, domain, path, sameSite);
         }
 
     }

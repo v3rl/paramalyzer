@@ -29,12 +29,13 @@ public class CookieStatistics {
     private String domains = "(Never Set)";
     private List<String> pathList = new ArrayList<>();
     private String paths = "(Never Set)";
+    private String sameSite = "(Browser Default)";
 
     public CookieStatistics(String name) {
         this.name = name;
     }
 
-    void addCookieValues(boolean httpOnly, boolean secure, String expires, String maxAge, String domain, String path) {
+    void addCookieValues(boolean httpOnly, boolean secure, String expires, String maxAge, String domain, String path, String sameSite) {
         count+=1;
         if(httpOnly) {
             httpOnlyCount += 1;
@@ -52,6 +53,12 @@ public class CookieStatistics {
         if(path != null && !pathList.contains(path)) {
             pathList.add(path);
             paths = String.join(",", pathList);
+        }
+        if(sameSite != null) {
+            // Some Web application frameworks store Secure value in this attribute
+            if(!sameSite.equals("Secure")){
+                this.sameSite = sameSite;
+            }
         }
     }
 
@@ -81,6 +88,10 @@ public class CookieStatistics {
 
     String getPaths(){
         return paths;
+    }
+
+    String getSameSite(){
+        return sameSite;
     }
 
 
